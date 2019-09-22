@@ -1,0 +1,4 @@
+name = "RootSystems"
+uuid = "54ec4580-3427-44be-920c-82a0ec39fcd6"
+authors = ["Timo Kluck <tkluck@infty.nl>"]
+version = "0.1.0"
