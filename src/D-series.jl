@@ -2,7 +2,7 @@ struct D{n} <: RootSystem end
 
 D(n) = D{n}()
 
-struct DRoot{n} #<: Root{D{n}}
+struct DRoot{n} <: Root
     i :: Int
     j :: Int
     sign_i :: Int
@@ -18,8 +18,6 @@ coordinates(α::DRoot{n}) where n = [
     k == α.i ? α.sign_i : k == α.j ? α.sign_j : 0
     for k in 1:n
 ]
-
-dynkin_diagram_automorphism_count(::D{n}) where n = n == 4 ? 6 : 2
 
 function simple_roots(Φ::D{n}) where n
     return [map(i->DRoot{n}(i, i+1, +1, -1), 1:(n-1)); DRoot{n}(n-1, n, +1, +1)]
@@ -80,3 +78,29 @@ function coefficients_on_simple_roots(Φ::D{n}, α::DRoot{n}) where n
     end
 end
 
+struct DAut{n}
+    permutation :: Vector{Int}
+    signs       :: Vector{Int}
+end
+
+weyl_group(::D{n}) where n = (
+    DAut{n}(p, [iszero(s & big"1" << b) ? +1 : -1 for b in 0 : n-1])
+    for p in permutations(1:n)
+    for s in 0:(big"2"^n - 1)
+    if iseven(count_ones(s))
+)
+
+dynkin_diagram_automorphisms(::D{4}) = error("Not implemented")
+
+dynkin_diagram_automorphisms(::D{n}) where n = [
+    DAut{n}([1:n;], [[+1 for _ in 1:n-1]; +1]),
+    DAut{n}([1:n;], [[+1 for _ in 1:n-1]; -1]),
+]
+
+function coordinates(f::DAut{n}) where n
+    res = spzeros(Int, n, n)
+    for (i, (j, s)) in enumerate(zip(f.permutation, f.signs))
+        res[j, i] = s
+    end
+    return res
+end

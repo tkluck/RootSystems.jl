@@ -1,3 +1,5 @@
+using LinearAlgebra: I
+
 struct E6 <: RootSystem end
 struct E7 <: RootSystem end
 struct E8 <: RootSystem end
@@ -5,7 +7,7 @@ struct E8 <: RootSystem end
 E(n) = n == 6 ? E6() : n == 7 ? E7() : n == 8 ? E8() : error("There is no E$n root system")
 
 
-struct HalfIntegerE8Root
+struct HalfIntegerE8Root <: Root
     signs :: UInt8
 end
 
@@ -25,10 +27,6 @@ coordinates(α::HalfIntegerE8Root) = [
     !iszero(α.signs & (256 >> k)) ? -1//2 : 1//2
     for k in 1:8
 ]
-
-dynkin_diagram_automorphism_count(::E6) = 2
-dynkin_diagram_automorphism_count(::E7) = 1
-dynkin_diagram_automorphism_count(::E8) = 1
 
 function simple_roots(Φ::E8)
     return E8Root[
@@ -91,3 +89,30 @@ function coefficients_on_simple_roots(Φ::E6, α)
     iszero(coeff[1]) || error("$α is not in $Φ")
     return coeff[2:end]
 end
+
+struct E6Identity end
+struct E7Identity end
+struct E8Identity end
+struct E6Flip end
+
+dynkin_diagram_automorphisms(::E6) = [
+    E6Identity(),
+    E6Flip(),
+]
+
+dynkin_diagram_automorphisms(::E7) = [EIdentity()]
+dynkin_diagram_automorphisms(::E8) = [EIdentity()]
+
+coordinates(::E6Identity) = I
+coordinates(::E7Identity) = I
+coordinates(::E8Identity) = I
+coordinates(::E6Flip) = [
+     1  1 -3 0  0  0  0  1
+     1  1 -3 0  0  0  0  1
+    -3 -3 -3 0  0  0  0 -3
+     0  0  0 3  3  3  3  0
+     0  0  0 3  3 -3 -3  0
+     0  0  0 3 -3  3 -3  0
+     0  0  0 3 -3 -3  3  0
+     1  1 -3 0  0  0  0  1
+]//6

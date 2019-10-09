@@ -1,9 +1,11 @@
+using Combinatorics: permutations
+using SparseArrays: spzeros
 
 struct A{n} <: RootSystem end
 
 A(n) = A{n}()
 
-struct ARoot{n} #<: Root{A{n}}
+struct ARoot{n} <: Root
     i :: Int
     j :: Int
 end
@@ -13,10 +15,8 @@ Base.length(::A{n}) where n = (n+1)*n
 
 coordinates(α::ARoot{n}) where n = [
     k == α.i ? 1 : k == α.j ? -1 : 0
-    for k in 1:n
+    for k in 1:n+1
 ]
-
-dynkin_diagram_automorphism_count(::A{n}) where n = 2
 
 function simple_roots(Φ::A{n}) where n
     return map(i->ARoot{n}(i,i+1), 1:n)
@@ -54,3 +54,25 @@ function coefficients_on_simple_roots(Φ::A{n}, α::ARoot{n}) where n
     return res
 end
 
+struct AAut{n}
+    permutation :: Vector{Int}
+    sign        :: Int
+end
+
+weyl_group(::A{n}) where n = (
+    AAut{n}(p, +1)
+    for p in permutations(1:n + 1)
+)
+
+dynkin_diagram_automorphisms(::A{n}) where n = [
+    AAut{n}([1:n + 1;],    +1),
+    AAut{n}([n + 1:-1:1;], -1),
+]
+
+function coordinates(f::AAut{n}) where n
+    res = spzeros(Int, n+1, n+1)
+    for (i, j) in enumerate(f.permutation)
+        res[j, i] = 1
+    end
+    return res
+end
