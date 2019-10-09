@@ -4,7 +4,7 @@ using RootSystems
 const TestSystems = [
     [A(n) for n in 1:10];
     [D(n) for n in 1:10];
-    E(8);
+    [E(n) for n in 6:8];
 ]
 
 @testset "RootSystems.jl" begin

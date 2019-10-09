@@ -37,6 +37,9 @@ function simple_roots(Φ::E8)
     ]
 end
 
+simple_roots(Φ::E7) = simple_roots(E(8))[2:end]
+simple_roots(Φ::E6) = simple_roots(E(8))[3:end]
+
 function roots(Φ::E8)
     return E8Root[
         roots(D(8));
@@ -47,6 +50,9 @@ function roots(Φ::E8)
         ]
     ]
 end
+
+roots(Φ::E7) = filter(r -> iszero(coefficients_on_simple_roots(E(8), r)[1]), roots(E(8)))
+roots(Φ::E6) = filter(r -> iszero(coefficients_on_simple_roots(E(7), r)[1]), roots(E(7)))
 
 function coefficients_on_simple_roots(Φ::E8, α::DRoot{n}) where n
     D_coeffs = coefficients_on_simple_roots(D(8), α)
@@ -73,3 +79,14 @@ function coefficients_on_simple_roots(Φ::E8, α::HalfIntegerE8Root) where n
     return mapreduce(β -> coefficients_on_simple_roots(Φ, β), +, D_roots, init=[0,0,0,0,0,0,0,1]);
 end
 
+function coefficients_on_simple_roots(Φ::E7, α)
+    coeff = coefficients_on_simple_roots(E(8), α)
+    iszero(coeff[1]) || error("$α is not in $Φ")
+    return coeff[2:end]
+end
+
+function coefficients_on_simple_roots(Φ::E6, α)
+    coeff = coefficients_on_simple_roots(E(7), α)
+    iszero(coeff[1]) || error("$α is not in $Φ")
+    return coeff[2:end]
+end
