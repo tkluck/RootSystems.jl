@@ -14,9 +14,10 @@ Base.:-(α::DRoot) = typeof(α)(α.i, α.j, -α.sign_i, -α.sign_j)
 rank(::D{n}) where n = n
 Base.length(::D{n}) where n = 2n*(n-1)
 
-coordinates(α::DRoot{n}) where n = ntuple(Val(n)) do k
+coordinates(α::DRoot{n}) where n = [
     k == α.i ? α.sign_i : k == α.j ? α.sign_j : 0
-end
+    for k in 1:n
+]
 
 dynkin_diagram_automorphism_count(::D{n}) where n = n == 4 ? 6 : 2
 

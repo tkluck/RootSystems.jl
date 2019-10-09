@@ -11,9 +11,10 @@ end
 rank(::A{n}) where n = n
 Base.length(::A{n}) where n = (n+1)*n
 
-coordinates(α::ARoot{n}) where n = ntuple(Val(n+1)) do k
+coordinates(α::ARoot{n}) where n = [
     k == α.i ? 1 : k == α.j ? -1 : 0
-end
+    for k in 1:n
+]
 
 dynkin_diagram_automorphism_count(::A{n}) where n = 2
 

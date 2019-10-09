@@ -21,9 +21,10 @@ Base.length(::E6) =  72
 Base.length(::E7) = 126
 Base.length(::E8) = 240
 
-coordinates(α::HalfIntegerE8Root) = ntuple(8) do k
+coordinates(α::HalfIntegerE8Root) = [
     !iszero(α.signs & (256 >> k)) ? -1//2 : 1//2
-end
+    for k in 1:8
+]
 
 dynkin_diagram_automorphism_count(::E6) = 2
 dynkin_diagram_automorphism_count(::E7) = 1

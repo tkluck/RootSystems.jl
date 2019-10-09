@@ -15,9 +15,9 @@ const TestSystems = [
 
         @test Set(positive_roots(Φ)) == Set(filter(β -> all(coefficients_on_simple_roots(Φ, β) .>= 0), roots(Φ)))
 
-        Δ = map(collect∘coordinates, simple_roots(Φ))
+        Δ = map(coordinates, simple_roots(Φ))
         @test all(roots(Φ)) do β
-            sum(c*δ for (c,δ) in zip(coefficients_on_simple_roots(Φ, β), Δ)) == collect(coordinates(β))
+            sum(c*δ for (c,δ) in zip(coefficients_on_simple_roots(Φ, β), Δ)) == coordinates(β)
         end
     end
 end
