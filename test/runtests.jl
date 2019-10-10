@@ -19,5 +19,13 @@ const TestSystems = [
         @test all(roots(Φ)) do β
             sum(c*δ for (c,δ) in zip(coefficients_on_simple_roots(Φ, β), Δ)) == coordinates(β)
         end
+
+        if !(Φ isa E) && rank(Φ) < 4
+            W = collect(weyl_group(Φ))
+            @test all(
+                coordinates(f∘g) == coordinates(f)*coordinates(g)
+                for f in rand(W, 100), g in rand(W, 100)
+            )
+        end
     end
 end

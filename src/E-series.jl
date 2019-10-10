@@ -4,6 +4,8 @@ struct E6 <: RootSystem end
 struct E7 <: RootSystem end
 struct E8 <: RootSystem end
 
+const E = Union{E6, E7, E8}
+
 E(n) = n == 6 ? E6() : n == 7 ? E7() : n == 8 ? E8() : error("There is no E$n root system")
 
 
@@ -94,6 +96,10 @@ struct E6Identity end
 struct E7Identity end
 struct E8Identity end
 struct E6Flip end
+
+Base.:∘(::Id, ::Id) where Id <: Union{E6Identity, E7Identity, E8Identity} = Id()
+Base.:∘(::E6Identity, ::E6Flip) = E6Flip()
+Base.:∘(::E6Flip, ::E6Identity) = E6Flip()
 
 dynkin_diagram_automorphisms(::E6) = [
     E6Identity(),

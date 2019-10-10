@@ -59,6 +59,13 @@ struct AAut{n}
     sign        :: Int
 end
 
+function Base.:∘(f::Aut, g::Aut) where Aut <: AAut
+    Aut(
+        f.permutation[g.permutation],
+        f.sign .* g.sign,
+    )
+end
+
 weyl_group(::A{n}) where n = (
     AAut{n}(p, +1)
     for p in permutations(1:n + 1)

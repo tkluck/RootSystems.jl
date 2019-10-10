@@ -31,7 +31,7 @@ include("E-series.jl")
 
 export RootSystem, A, D, E
 export roots, simple_roots, positive_roots, coefficients_on_simple_roots, coordinates, rank
-export dynkin_diagram_automorphisms
+export weyl_group, dynkin_diagram_automorphisms
 export ⋅, reflectalong
 
 

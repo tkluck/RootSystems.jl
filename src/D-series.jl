@@ -83,6 +83,13 @@ struct DAut{n}
     signs       :: Vector{Int}
 end
 
+function Base.:∘(f::Aut, g::Aut) where Aut <: DAut
+    Aut(
+        f.permutation[g.permutation],
+        f.signs[g.permutation] .* g.signs
+    )
+end
+
 weyl_group(::D{n}) where n = (
     DAut{n}(p, [iszero(s & big"1" << b) ? +1 : -1 for b in 0 : n-1])
     for p in permutations(1:n)
