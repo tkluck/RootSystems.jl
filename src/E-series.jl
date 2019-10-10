@@ -100,25 +100,26 @@ struct E6Flip end
 Base.:∘(::Id, ::Id) where Id <: Union{E6Identity, E7Identity, E8Identity} = Id()
 Base.:∘(::E6Identity, ::E6Flip) = E6Flip()
 Base.:∘(::E6Flip, ::E6Identity) = E6Flip()
+Base.:∘(::E6Flip, ::E6Flip) = E6Identity()
 
 dynkin_diagram_automorphisms(::E6) = [
     E6Identity(),
     E6Flip(),
 ]
 
-dynkin_diagram_automorphisms(::E7) = [EIdentity()]
-dynkin_diagram_automorphisms(::E8) = [EIdentity()]
+dynkin_diagram_automorphisms(::E7) = [E7Identity()]
+dynkin_diagram_automorphisms(::E8) = [E8Identity()]
 
 coordinates(::E6Identity) = I
 coordinates(::E7Identity) = I
 coordinates(::E8Identity) = I
 coordinates(::E6Flip) = [
-     1  1 -3 0  0  0  0  1
-     1  1 -3 0  0  0  0  1
-    -3 -3 -3 0  0  0  0 -3
-     0  0  0 3  3  3  3  0
-     0  0  0 3  3 -3 -3  0
-     0  0  0 3 -3  3 -3  0
-     0  0  0 3 -3 -3  3  0
-     1  1 -3 0  0  0  0  1
-]//6
+     1  -1  -1  0   0   0   0  1
+    -1   1  -1  0   0   0   0  1
+    -3  -3  -1  0   0   0   0  3
+     0   0   0  1   1   1   1  0
+     0   0   0  1   1  -1  -1  0
+     0   0   0  1  -1   1  -1  0
+     0   0   0  1  -1  -1   1  0
+    -1  -1  -1  0   0   0   0  3
+]//2

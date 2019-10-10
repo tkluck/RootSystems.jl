@@ -79,7 +79,7 @@ dynkin_diagram_automorphisms(::A{n}) where n = [
 function coordinates(f::AAut{n}) where n
     res = spzeros(Int, n+1, n+1)
     for (i, j) in enumerate(f.permutation)
-        res[j, i] = 1
+        res[j, i] = f.sign
     end
     return res
 end
