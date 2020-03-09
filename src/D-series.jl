@@ -90,14 +90,14 @@ function Base.:∘(f::Aut, g::Aut) where Aut <: DAut
     )
 end
 
+Base.:(==)(a::Aut, b::Aut) where Aut <: DAut = a.permutation == b.permutation && a.signs == b.signs
+
 weyl_group(::D{n}) where n = (
     DAut{n}(p, [iszero(s & big"1" << b) ? +1 : -1 for b in 0 : n-1])
     for p in permutations(1:n)
     for s in 0:(big"2"^n - 1)
     if iseven(count_ones(s))
 )
-
-dynkin_diagram_automorphisms(::D{4}) = error("Not implemented")
 
 dynkin_diagram_automorphisms(::D{n}) where n = [
     DAut{n}([1:n;], [[+1 for _ in 1:n-1]; +1]),
@@ -110,4 +110,28 @@ function coordinates(f::DAut{n}) where n
         res[j, i] = s
     end
     return res
+end
+
+struct D4Aut
+    permutation :: Vector{Int}
+end
+
+Base.:(==)(a::D4Aut, b::D4Aut) = a.permutation == b.permutation
+
+Base.:∘(f::D4Aut, g::D4Aut) = D4Aut(f.permutation[g.permutation])
+
+dynkin_diagram_automorphisms(::D{4}) = [
+    D4Aut([1, 2, 3, 4]),
+    D4Aut([1, 2, 4, 3]),
+    D4Aut([3, 2, 1, 4]),
+    D4Aut([3, 2, 4, 1]),
+    D4Aut([4, 2, 1, 3]),
+    D4Aut([4, 2, 3, 1]),
+]
+
+function coordinates(f::D4Aut)
+    Δ = map(coordinates, simple_roots(D(4)))
+    id = hcat(Δ...)' // 1
+    x = hcat(Δ[f.permutation]...)' // 1
+    return x \ id
 end

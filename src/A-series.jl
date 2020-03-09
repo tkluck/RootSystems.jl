@@ -59,6 +59,8 @@ struct AAut{n}
     sign        :: Int
 end
 
+Base.:(==)(a::Aut, b::Aut) where Aut <: AAut = a.permutation == b.permutation && a.sign == b.sign
+
 function Base.:∘(f::Aut, g::Aut) where Aut <: AAut
     Aut(
         f.permutation[g.permutation],
