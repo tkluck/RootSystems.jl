@@ -1,7 +1,7 @@
 RootSystems.jl
 ==============
 
-[![][travis-img]][travis-url] [![][appveyor-img]][appveyor-url]
+[![][c-i-img]][c-i-url]
 
 
 A simple library that contains implementations of the [irreducible root systems](https://en.wikipedia.org/wiki/Root_system).
@@ -46,8 +46,6 @@ This library was created for a specific computation [related to this
 paper](https://aip.scitation.org/doi/abs/10.1063/1.4705269) and is therefore
 not as general as it could/should be.
 
-[travis-img]: https://travis-ci.org/tkluck/RootSystems.jl.svg?branch=master
-[travis-url]: https://travis-ci.org/tkluck/RootSystems.jl
+[c-i-img]: https://github.com/tkluck/RootSystems.jl/workflows/CI/badge.svg
+[c-i-url]: https://github.com/tkluck/RootSystems.jl/actions?query=workflow%3ACI
 
-[appveyor-img]: https://ci.appveyor.com/api/projects/status/mm4hem7506ct64ot?svg=true
-[appveyor-url]: https://ci.appveyor.com/project/tkluck/rootsystems-jl
